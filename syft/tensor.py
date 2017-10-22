@@ -13,6 +13,7 @@ import syft
 import scipy
 from scipy import stats
 import pickle
+import torch
 
 __all__ = [
     'equal', 'TensorBase',
@@ -3379,6 +3380,12 @@ class TensorBase(object):
 
         return TensorBase(np.concatenate(sub_arrays, axis=dim))
 
+    def toTorch(self, dtype=np.float32):
+        """
+        Return torch tensor
+        """
+        return toTorch(self, dtype)
+
 
 def numel(self):
     """
@@ -3448,3 +3455,9 @@ def masked_select(tensor, mask):
         mask.data, tensor.data)
     indices = np.where(mask_broadcasted)
     return TensorBase(data_broadcasted[indices])
+
+def toTorch(tensor, dtype=np.float32):
+    """
+        Return torch tensor
+    """
+    return torch.Tensor(torch.from_numpy(tensor.data.astype(dtype)))
